@@ -8,6 +8,7 @@ import (
 	"net/http"
 
 	"github.com/labstack/echo/v4"
+	"github.com/labstack/echo/v4/middleware"
 )
 
 type Cat struct {
@@ -109,6 +110,11 @@ func main() {
 	e := echo.New()
 
 	g := e.Group("/admin")
+
+	// Logging the server interaction.
+	g.Use(middleware.LoggerWithConfig(middleware.LoggerConfig{
+		Format: `[${time_rfc3339}] ${status} ${method} ${host} ${path} ${latency_human}` + "\n",
+	}))
 
 	g.GET("/main", mainAdmin)
 

@@ -113,7 +113,16 @@ func main() {
 
 	// Logging the server interaction.
 	g.Use(middleware.LoggerWithConfig(middleware.LoggerConfig{
-		Format: `[${time_rfc3339}] ${status} ${method} ${host} ${path} ${latency_human}` + "\n",
+		Format: `[${time_rfc3;;;;;] ${status} ${method} ${host} ${path} ${latency_human}` + "\n",
+	}))
+
+	g.Use(middleware.BasicAuth(func(username, password string, c echo.Context) (bool, error) {
+		var err error
+		// check in the DB
+		if username == "jack" && password == "1234" {
+			return true, err
+		}
+		return false, err
 	}))
 
 	g.GET("/main", mainAdmin)

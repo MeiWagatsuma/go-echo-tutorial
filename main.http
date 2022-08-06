@@ -1,0 +1,7 @@
+POST http://172.23.243.253:8080/cats
+Content-Type: application/json
+
+{
+  "name": "fishmaster",
+  "type": "cat-fish"
+}

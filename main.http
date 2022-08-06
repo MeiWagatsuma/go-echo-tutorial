@@ -21,3 +21,5 @@ Content-Type: application/json
   "name": "da hamster",
   "type": "master"
 }
+###
+GET http://172.23.243.253:8080/admin/main

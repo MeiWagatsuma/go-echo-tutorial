@@ -15,6 +15,16 @@ type Cat struct {
 	Type string `json:"type"`
 }
 
+type Dog struct {
+	Name string `json:"name"`
+	Type string `json:"type"`
+}
+
+type Hamster struct {
+	Name string `json:"name"`
+	Type string `json:"type"`
+}
+
 func hello(c echo.Context) error {
 	return c.String(http.StatusOK, "Hello from the web side!")
 }
@@ -45,6 +55,7 @@ func getCats(c echo.Context) error {
 
 }
 
+// これが一番早いらしい
 func addCat(c echo.Context) error {
 	cat := Cat{}
 	b, err := io.ReadAll(c.Request().Body)
@@ -62,6 +73,32 @@ func addCat(c echo.Context) error {
 	return c.String(http.StatusOK, "we got your cat!")
 }
 
+func addDog(c echo.Context) error {
+	dog := Dog{}
+	defer c.Request().Body.Close()
+
+	err := json.NewDecoder(c.Request().Body).Decode(&dog)
+	if err != nil {
+		log.Printf("Failed processing addDog request: %s", err)
+		return echo.NewHTTPError(http.StatusInternalServerError)
+	}
+	log.Printf("this is your dog: %#v", dog)
+	return c.String(http.StatusOK, "we got your cat!")
+}
+
+func addHamster(c echo.Context) error {
+	hamster := Hamster{}
+
+	err := c.Bind(&hamster)
+	if err != nil {
+		log.Printf("Failed processing addHam request: %s", err)
+		return echo.NewHTTPError(http.StatusInternalServerError)
+	}
+
+	log.Printf("this is your hamster: %#v", hamster)
+	return c.String(http.StatusOK, "we got your cat!")
+}
+
 func main() {
 	fmt.Println("Welcome to the server")
 
@@ -70,6 +107,8 @@ func main() {
 	e.GET("/cats/:data", getCats)
 
 	e.POST("/cats", addCat)
+	e.POST("/dogs", addDog)
+	e.POST("hamsters", addHamster)
 
 	e.Start(":8080")
 }

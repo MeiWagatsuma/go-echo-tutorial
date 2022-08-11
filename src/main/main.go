@@ -116,6 +116,22 @@ func mainCookie(c echo.Context) error {
 	return c.String(http.StatusOK, "you are on the secret cookie page!")
 }
 
+func mainJwt(c echo.Context) error {
+	user := c.Get("user")
+	log.Println("user: ", user)
+	if user == nil {
+		return c.String(http.StatusExpectationFailed, "you are not on the top secret jwt page!")
+	}
+	// FIX: interface conversion: interface {} is *jwt.Token, not *jwt.Token (types from different packages)
+	token := user.(*jwt.Token)
+
+	claims := token.Claims.(jwt.MapClaims)
+
+	log.Println("User Name: ", claims["user"].(string), "User ID: ", claims["jti"])
+
+	return c.String(http.StatusOK, "you are on the top secret jwt page!")
+}
+
 func login(c echo.Context) error {
 	username := c.QueryParam("username")
 	password := c.QueryParam("password")
@@ -200,6 +216,7 @@ func main() {
 
 	adminGroup := e.Group("/admin")
 	cookieGroup := e.Group("/cookie")
+	jwtGroup := e.Group("/jwt")
 
 	// Logging the server interaction.
 	adminGroup.Use(middleware.LoggerWithConfig(middleware.LoggerConfig{
@@ -215,11 +232,18 @@ func main() {
 		return false, err
 	}))
 
+	jwtGroup.Use(middleware.JWTWithConfig(middleware.JWTConfig{
+		SigningMethod: "HS512",
+		SigningKey:    []byte("mySecret"),
+	}))
+
 	cookieGroup.Use(checkCookie)
 
 	cookieGroup.GET("/main", mainCookie)
 
 	adminGroup.GET("/main", mainAdmin)
+
+	jwtGroup.GET("/main", mainJwt)
 
 	e.GET("/login", login)
 	e.GET("/", hello)

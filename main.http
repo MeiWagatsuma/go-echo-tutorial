@@ -1,4 +1,4 @@
-POST http://localhost:8080/cats
+POST http://172.23.241.42:8080/cats
 Content-Type: application/json
 
 {
@@ -6,7 +6,7 @@ Content-Type: application/json
   "type": "cat-fish"
 }
 ###
-POST http://localhost:8080/dogs
+POST http://172.23.241.42:8080/dogs
 Content-Type: application/json
 
 {
@@ -14,7 +14,7 @@ Content-Type: application/json
   "type": "dog-fish"
 }
 ###
-POST http://localhost:8080/hamsters
+POST http://172.23.241.42:8080/hamsters
 Content-Type: application/json
 
 {
@@ -22,13 +22,22 @@ Content-Type: application/json
   "type": "master"
 }
 ###
-GET http://localhost:8080/admin/main
+GET http://172.23.241.42:8080/admin/main
 Authorization: Basic jack:1234
 
 ###
-GET http://localhost:8080/login
+GET http://172.23.241.42:8080/login
 Authorization: Basic jack:1234
 
 ###
-GET http://localhost:8080/login?username=jack&password=1234
+GET http://172.23.241.42:8080/login?username=jack&password=1234
 Content-Type: application/json
+
+###
+GET http://172.23.241.42:8080/jwt/main
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzUxMiIsInR5cCI6IkpXVCJ9.eyJuYW1lIjoiamFjayIsImV4cCI6MTY2MDI3MTc0NiwianRpIjoibWFpbl91c2VyX2lkIn0.cOpV823uRep_hPZUv3RIQGD0pyGhsiV9FIatukzgAQfa--xxHgr3ZHfCl7mktgi7jRQkwGpUOybPaXtedBalNg 
+
+###
+GET http://172.23.241.42:8080/jwt/main
+MyHeader: iLoveDogs eyJhbGciOiJIUzUxMiIsInR5cCI6IkpXVCJ9.eyJuYW1lIjoiamFjayIsImV4cCI6MTY2MDI3MjkzMywianRpIjoibWFpbl91c2VyX2lkIn0.3HmqlztXsGUwiIWVQhbllNegM9ZtC44chDje0Ih6Da_9my3-YBdePdkqFZCg9TF_XXUeabBNEPwxk5v41-1JOg

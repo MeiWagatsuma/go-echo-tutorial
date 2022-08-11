@@ -1,4 +1,4 @@
-POST http://172.23.243.253:8080/cats
+POST http://localhost:8080/cats
 Content-Type: application/json
 
 {
@@ -6,7 +6,7 @@ Content-Type: application/json
   "type": "cat-fish"
 }
 ###
-POST http://172.23.243.253:8080/dogs
+POST http://localhost:8080/dogs
 Content-Type: application/json
 
 {
@@ -14,7 +14,7 @@ Content-Type: application/json
   "type": "dog-fish"
 }
 ###
-POST http://172.23.243.253:8080/hamsters
+POST http://localhost:8080/hamsters
 Content-Type: application/json
 
 {
@@ -22,5 +22,13 @@ Content-Type: application/json
   "type": "master"
 }
 ###
-GET http://172.23.243.253:8080/admin/main
+GET http://localhost:8080/admin/main
 Authorization: Basic jack:1234
+
+###
+GET http://localhost:8080/login
+Authorization: Basic jack:1234
+
+###
+GET http://localhost:8080/login?username=jack&password=1234
+Content-Type: application/json
